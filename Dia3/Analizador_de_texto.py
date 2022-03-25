@@ -7,12 +7,11 @@ contador_letras = [texto.lower().count(letras[0]),
                    texto.lower().count(letras[1]),
                    texto.lower().count(letras[2])]
 print("-------------------------------------------------------------------")
-print(f"-Letra '{letras[0]}': {contador_letras[0]}")
-print(f"-Letra '{letras[1]}': {contador_letras[1]}")
-print(f"-Letra '{letras[2]}': {contador_letras[2]}")
+for i in range(3):
+    print(f"-Letra '{letras[i]}': {contador_letras[i]}")
 
 print(f"-En el Texto hay {len(texto.split())} palabras")
 print(f"-La primera letra del texto es {texto[0]} y la última es {texto[-1]}")
-print(f""""-El texto del revés es: 
+print(f"""-El texto del revés es: 
     {" ".join(texto.split()[::-1])}""")
 print("-La palabra Python {}".format(("está en el texto.", "no está en el texto.")["python" not in texto.lower()]))
