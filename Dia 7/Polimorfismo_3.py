@@ -5,7 +5,7 @@ class Mago():
 
 class Arquero():
     def defender(self):
-        print("Esconderse")
+        print("Taparse")
 
 
 class Samurai():
