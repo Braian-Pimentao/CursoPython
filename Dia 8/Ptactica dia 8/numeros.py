@@ -1,36 +1,27 @@
 def mensaje(funcion):
     def otra_funcion():
+        print("+" * 50)
         print("Su turno es:")
-        funcion()
+        print(next(funcion))
         print("Espere su turno, por favor")
-
+        print("+" * 50)
     return otra_funcion
 
 
 def generador_perfumeria():
-    x = 1
-    #while True:
-    print("P-" + str(x))
-    #    x += 1
+    for n in range(1,10000):
+        yield f"P- {n}"
 
 
 def generador_farmacia():
-    x = 1
-    while True:
-        yield "F-" + str(x)
-        x += 1
+    for n in range(1, 10000):
+        yield f"F- {n}"
 
 
 def generador_cosmetica():
-    x = 1
-    while True:
-        yield "C-" + str(x)
-        x += 1
+    for n in range(1, 10000):
+        yield f"C- {n}"
 
-
-perfumeria_decorada = mensaje(generador_perfumeria)
-
-perfumeria_decorada()
 
 
 
