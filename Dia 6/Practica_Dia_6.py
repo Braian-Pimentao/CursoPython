@@ -43,6 +43,7 @@ def listarCategorias():
         print(f"[{categorias.index(categoria) + 1}]{categoria.stem}")
     return categorias
 
+
 def listarRecetas(categoria):
     recetas_recogidas = tuple(archivo.glob(f"{categoria.stem}/*.txt"))
     if len(recetas_recogidas) == 0:
