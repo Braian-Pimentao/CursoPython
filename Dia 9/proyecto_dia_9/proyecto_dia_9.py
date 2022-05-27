@@ -4,6 +4,7 @@ import datetime
 import time
 import math
 
+
 def recorrer_directorios():
     lista_archivos_numeros = []
     for root, directorio, file in os.walk('Mi_Gran_Directorio', topdown=False):
@@ -25,7 +26,7 @@ def buscar_patron(path, archivo):
 
 
 def imprimir_lista(lista_archivos,tiempo):
-    print('-'*51)
+    print('-'*50)
     hoy = datetime.date.today().strftime('%d/%m/%Y')
     print(f'Fecha de búsqueda: {hoy}\n')
     print('ARCHIVO'+'\t'*4 + 'NRO. SERIE')
@@ -34,7 +35,7 @@ def imprimir_lista(lista_archivos,tiempo):
         print(f'{archivo}\t\t{n_serie}')
     print(f'\nNúmeros encontrados: {len(lista_archivos)}')
     print(f'Duración de la búsqueda: {tiempo} segundos')
-    print('-'*51)
+    print('-'*50)
 
 
 inicio = time.time()
