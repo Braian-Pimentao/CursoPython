@@ -1,5 +1,7 @@
 import pygame
-import  random
+import random
+import math
+from objects_game import *
 
 # Inicializar Pygame
 pygame.init()
@@ -13,24 +15,39 @@ icono = pygame.image.load("src/ovni.png")
 pygame.display.set_icon(icono)
 fondo = pygame.image.load("src/fondo.jpg")
 
-# Crear player
-img_player = pygame.image.load("src/nave.png")
-player_x = 368
-player_y = 500
-player_x_change = 0
 
-# Crear enemigo
-img_enemy = pygame.image.load("src/enemigo.png")
-enemy_x = random.randint(0,736)
-enemy_y = 20
-enemy_x_change = 0.6
-enemy_y_change = 50
+player = Player(pantalla)
 
-def player(x, y):
-    pantalla.blit(img_player, (x,y))
+player.paint_player()
 
-def enemy(x, y):
-    pantalla.blit(img_enemy, (x,y))
+enemy = Enemy(pantalla)
+
+enemy.paint_enemy()
+
+# Crear bala
+img_bala = pygame.image.load("src/bala.png")
+bala_x = 0
+bala_y = 500
+bala_y_change = 0.6
+bala_visible = False
+
+#score
+score = 0
+
+def disparar_bala(x, y):
+    global bala_visible
+    bala_visible = True
+    pantalla.blit(img_bala, (x+16, y+10))
+
+
+# Detectar colisiones
+def calcular_distancia(x_1,y_1,x_2,y_2):
+    distancia = math.sqrt(math.pow(x_1 - x_2, 2) + math.pow(y_2 - y_1, 2))
+    if distancia < 27:
+        return True
+    else:
+        return False
+
 
 # Loop del juego
 se_ejecuta = True
@@ -40,44 +57,59 @@ while se_ejecuta:
 
     # Iterar eventos
     for evento in pygame.event.get():
-
         #Evento cerrar
         if evento.type == pygame.QUIT:
             se_ejecuta = False
 
-        #Evento flechas
+        #Evento teclas
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_a \
                     or evento.key == pygame.K_LEFT:
-                player_x_change = -0.6
-            elif evento.key == pygame.K_d \
+                player.x_change = -0.3
+            if evento.key == pygame.K_d \
                     or evento.key == pygame.K_RIGHT:
-                player_x_change = 0.6
+                player.x_change = 0.3
+            if evento.key == pygame.K_SPACE:
+                if not bala_visible:
+                    bala_x = player.x
+                disparar_bala(bala_x,bala_y)
         if evento.type == pygame.KEYUP:
             if evento.key == pygame.K_a or evento.key == pygame.K_d \
                     or evento.key == pygame.K_LEFT or evento.key == pygame.K_RIGHT:
-                player_x_change = 0
+                player.x_change = 0
+
 
     # Modificar movimiento del jugador
-    player_x += player_x_change
+    player.x += player.x_change
     # Mantener bordes de pantalla del jugador
-    if player_x <= 4:
-        player_x = 4
-    elif player_x >= 732:
-        player_x = 732
+    if player.x <= 4:
+        player.x = 4
+    elif player.x >= 732:
+        player.x = 732
 
-    # Modificar movimiento del enemigo
-    enemy_x += enemy_x_change
-    # Mantener bordes de pantalla del enemigo
-    if enemy_x <= 4:
-        enemy_x_change = 0.6
-        enemy_y += enemy_y_change
-    elif enemy_x >= 732:
-        enemy_x_change = -0.6
-        enemy_y += enemy_y_change
+    enemy.move_enemy()
 
-    player(player_x, player_y)
-    enemy(enemy_x, enemy_y)
+    # Movimiento bala
+    if bala_y <= -64:
+        bala_y = 500
+        bala_visible = False
+
+    if bala_visible:
+        disparar_bala(bala_x, bala_y)
+        bala_y -= bala_y_change
+
+    player.paint_player()
+    enemy.paint_enemy()
+
+    #Colision
+    colision = calcular_distancia(enemy.x,enemy.y,bala_x,bala_y)
+    if colision:
+        bala_y = 500
+        bala_visible = False
+        score += 1
+        print(score)
+        enemy_x = random.randint(0, 736)
+        enemy_y = 20
 
     #Actualizar pantalla
     pygame.display.update()
