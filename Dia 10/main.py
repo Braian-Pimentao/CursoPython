@@ -15,29 +15,22 @@ icono = pygame.image.load("src/ovni.png")
 pygame.display.set_icon(icono)
 fondo = pygame.image.load("src/fondo.jpg")
 
-
+# Crear jugador
 player = Player(pantalla)
-
+# Pintar jugador
 player.paint_player()
 
+# Crear Enemigo
 enemy = Enemy(pantalla)
 
+# Pintar enemigo
 enemy.paint_enemy()
 
 # Crear bala
-img_bala = pygame.image.load("src/bala.png")
-bala_x = 0
-bala_y = 500
-bala_y_change = 0.6
-bala_visible = False
+bullet = Bullet(pantalla)
 
 #score
 score = 0
-
-def disparar_bala(x, y):
-    global bala_visible
-    bala_visible = True
-    pantalla.blit(img_bala, (x+16, y+10))
 
 
 # Detectar colisiones
@@ -70,9 +63,9 @@ while se_ejecuta:
                     or evento.key == pygame.K_RIGHT:
                 player.x_change = 0.3
             if evento.key == pygame.K_SPACE:
-                if not bala_visible:
-                    bala_x = player.x
-                disparar_bala(bala_x,bala_y)
+                if not bullet.visible:
+                    bullet.x = player.x
+                bullet.disparar()
         if evento.type == pygame.KEYUP:
             if evento.key == pygame.K_a or evento.key == pygame.K_d \
                     or evento.key == pygame.K_LEFT or evento.key == pygame.K_RIGHT:
@@ -90,26 +83,20 @@ while se_ejecuta:
     enemy.move_enemy()
 
     # Movimiento bala
-    if bala_y <= -64:
-        bala_y = 500
-        bala_visible = False
-
-    if bala_visible:
-        disparar_bala(bala_x, bala_y)
-        bala_y -= bala_y_change
+    bullet.move_bullet()
 
     player.paint_player()
     enemy.paint_enemy()
 
     #Colision
-    colision = calcular_distancia(enemy.x,enemy.y,bala_x,bala_y)
+    colision = calcular_distancia(enemy.x,enemy.y,bullet.x,bullet.y)
     if colision:
-        bala_y = 500
-        bala_visible = False
+        bullet.y = 500
+        bullet.visible = False
         score += 1
         print(score)
-        enemy_x = random.randint(0, 736)
-        enemy_y = 20
+        enemy.x = random.randint(0, 736)
+        enemy.y = 20
 
     #Actualizar pantalla
     pygame.display.update()

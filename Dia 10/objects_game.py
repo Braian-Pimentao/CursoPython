@@ -15,7 +15,6 @@ class Player:
         self.pantalla.blit(self.img_player, (self.x, self.y))
 
 
-
 class Enemy:
     img_enemy = pygame.image.load("src/enemigo.png")
 
@@ -39,3 +38,27 @@ class Enemy:
         elif self.x >= 732:
             self.x_change = -0.3
             self.y += self.y_change
+
+
+class Bullet:
+    img_bala = pygame.image.load("src/bala.png")
+
+    def __init__(self, pantalla):
+        self.pantalla = pantalla
+        self.x = 0
+        self.y = 500
+        self.y_change = 0.6
+        self.visible = False
+
+    def disparar(self):
+        self.visible = True
+        self.pantalla.blit(self.img_bala, (self.x + 16, self.y + 10))
+
+    def move_bullet(self):
+        if self.y <= -64:
+            self.y = 500
+            self.visible = False
+
+        if self.visible:
+            self.disparar()
+            self.y -= self.y_change
