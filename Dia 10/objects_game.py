@@ -30,6 +30,8 @@ class Enemy:
 
     def move_enemy(self):
         # Modificar movimiento del enemigo
+        if self.y > 250:
+            self.y = 1000
         self.x += self.x_change
         # Mantener bordes de pantalla del enemigo
         if self.x <= 4:
@@ -62,3 +64,18 @@ class Bullet:
         if self.visible:
             self.disparar()
             self.y -= self.y_change
+
+class Score:
+    score = 0
+    text_x = 10
+    text_y = 10
+
+    def __init__(self, pantalla,font):
+        self.pantalla = pantalla
+        self.x = 10
+        self.font = font
+        self.y = 10
+
+    def mostrar_puntaje(self):
+        text = self.font.render(f"{self.score}", True, (255, 255, 255))
+        self.pantalla.blit(text, (self.x, self.y))

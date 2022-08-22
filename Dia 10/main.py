@@ -2,6 +2,7 @@ import pygame
 import random
 import math
 from objects_game import *
+from pygame import mixer
 
 # Inicializar Pygame
 pygame.init()
@@ -14,6 +15,11 @@ pygame.display.set_caption("Space Invaders")
 icono = pygame.image.load("src/ovni.png")
 pygame.display.set_icon(icono)
 fondo = pygame.image.load("src/fondo.jpg")
+
+# Agregar musica
+mixer.music.load("src/musicaFondo.mp3")
+mixer.music.set_volume(0.3)
+mixer.music.play(-1)
 
 # Crear jugador
 player = Player(pantalla)
@@ -29,9 +35,9 @@ enemy.paint_enemy()
 # Crear bala
 bullet = Bullet(pantalla)
 
-#score
-score = 0
-
+# Crear puntaje
+font = pygame.font.Font('freesansbold.ttf', 32)
+score = Score(pantalla, font)
 
 # Detectar colisiones
 def calcular_distancia(x_1,y_1,x_2,y_2):
@@ -63,6 +69,9 @@ while se_ejecuta:
                     or evento.key == pygame.K_RIGHT:
                 player.x_change = 0.3
             if evento.key == pygame.K_SPACE:
+                disparo = mixer.Sound("src/disparo.mp3")
+                disparo.set_volume(0.5)
+                disparo.play()
                 if not bullet.visible:
                     bullet.x = player.x
                 bullet.disparar()
@@ -91,12 +100,16 @@ while se_ejecuta:
     #Colision
     colision = calcular_distancia(enemy.x,enemy.y,bullet.x,bullet.y)
     if colision:
+        golpe = mixer.Sound("src/golpe.mp3")
+        golpe.set_volume(0.3)
+        golpe.play()
         bullet.y = 500
         bullet.visible = False
-        score += 1
-        print(score)
+        score.score += 1
         enemy.x = random.randint(0, 736)
         enemy.y = 20
+
+    score.mostrar_puntaje()
 
     #Actualizar pantalla
     pygame.display.update()
