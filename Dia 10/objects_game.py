@@ -23,7 +23,7 @@ class Enemy:
         self.x = random.randint(0, 736)
         self.y = 20
         self.x_change = 0.3
-        self.y_change = 50
+        self.y_change = 25
 
     def paint_enemy(self):
         self.pantalla.blit(self.img_enemy, (self.x, self.y))

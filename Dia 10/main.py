@@ -17,14 +17,19 @@ fondo = pygame.image.load("src/fondo.jpg")
 
 # Crear jugador
 player = Player(pantalla)
+
 # Pintar jugador
 player.paint_player()
 
-# Crear Enemigo
-enemy = Enemy(pantalla)
+# Crear Enemigos
+enemies = []
+enemy_count = 8
 
-# Pintar enemigo
-enemy.paint_enemy()
+for e in range(enemy_count):
+    enemies.append(Enemy(pantalla))
+    enemies[e].paint_enemy()
+
+
 
 # Crear bala
 bullet = Bullet(pantalla)
@@ -80,23 +85,26 @@ while se_ejecuta:
     elif player.x >= 732:
         player.x = 732
 
-    enemy.move_enemy()
+    for e in range(enemy_count):
+        enemies[e].move_enemy()
+
+        colision = calcular_distancia(enemies[e].x, enemies[e].y, bullet.x, bullet.y)
+        if colision:
+           bullet.y = 500
+           bullet.visible = False
+           score += 1
+           print(score)
+           enemies[e].x = random.randint(0, 736)
+           enemies[e].y = 20
+           enemy_count -=1
+
+        enemies[e].paint_enemy()
 
     # Movimiento bala
     bullet.move_bullet()
 
     player.paint_player()
-    enemy.paint_enemy()
 
-    #Colision
-    colision = calcular_distancia(enemy.x,enemy.y,bullet.x,bullet.y)
-    if colision:
-        bullet.y = 500
-        bullet.visible = False
-        score += 1
-        print(score)
-        enemy.x = random.randint(0, 736)
-        enemy.y = 20
 
     #Actualizar pantalla
     pygame.display.update()
