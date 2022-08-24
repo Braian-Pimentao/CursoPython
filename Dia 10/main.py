@@ -103,7 +103,7 @@ while se_ejecuta:
             golpe.set_volume(0.3)
             bullet.y = 500
             bullet.visible = False
-            score += 1
+            score.score += 1
             print(score)
             enemies[e].x = random.randint(0, 736)
             enemies[e].y = 20
