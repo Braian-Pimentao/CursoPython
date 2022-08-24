@@ -56,27 +56,26 @@ def calcular_longitud(longitud):
 
     return f"{grados}{minutos}{segundos}{orientacion}"
 
-for i in range(1,contador_columnas_aerodromos):
-    if sheet_origen[f"B{i}"].value == "CY":
-        sheet_destino[f"A{contador_destino}"].value = sheet_origen[f"A{i}"].value
-        sheet_destino[f"B{contador_destino}"].value = sheet_origen[f"F{i}"].value
-        sheet_destino[f"C{contador_destino}"].value = "N"
-        sheet_destino[f"D{contador_destino}"].value = 10
-        sheet_destino[f"E{contador_destino}"].value = 0
-        sheet_destino[f"F{contador_destino}"].value = calcular_latitud(sheet_origen[f"D{i}"].value)
-        sheet_destino[f"G{contador_destino}"].value = 30
-        sheet_destino[f"H{contador_destino}"].value = 0
-        sheet_destino[f"I{contador_destino}"].value = sheet_origen[f"C{i}"].value
-        sheet_destino[f"J{contador_destino}"].value = calcular_longitud(sheet_origen[f"E{i}"].value)
-        sheet_destino[f"K{contador_destino}"].value = "B"
+for i in range(2,contador_columnas_aerodromos):
+    sheet_destino[f"A{contador_destino}"].value = sheet_origen[f"A{i}"].value
+    sheet_destino[f"B{contador_destino}"].value = sheet_origen[f"F{i}"].value
+    sheet_destino[f"C{contador_destino}"].value = "N"
+    sheet_destino[f"D{contador_destino}"].value = 10
+    sheet_destino[f"E{contador_destino}"].value = 0
+    sheet_destino[f"F{contador_destino}"].value = calcular_latitud(sheet_origen[f"D{i}"].value)
+    sheet_destino[f"G{contador_destino}"].value = 30
+    sheet_destino[f"H{contador_destino}"].value = 0
+    sheet_destino[f"I{contador_destino}"].value = sheet_origen[f"C{i}"].value
+    sheet_destino[f"J{contador_destino}"].value = calcular_longitud(sheet_origen[f"E{i}"].value)
+    sheet_destino[f"K{contador_destino}"].value = "B"
 
-        contador_destino += 1
+    contador_destino += 1
 
 
 
 print(contador_columnas_aerodromos)
 
-excel_document_destino.save(f'D:\\Adaptaciones\\Canada\\PRUEBA_CANADA_V101.xlsx')
+excel_document_destino.save(f'D:\\Adaptaciones\\Canada\\PRUEBA_CANADA_V203.xlsx')
 excel_document_destino.close()
 excel_document_origen.close()
 
